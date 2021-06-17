@@ -23,7 +23,9 @@ export class Pipeline extends Stack {
       sourceAction: new codepipeline_actions.GitHubSourceAction({
         actionName: "GitHub",
         output: sourceArtifact,
-        oauthToken: SecretValue.secretsManager("gh"),
+        oauthToken: SecretValue.secretsManager("gh", {
+          jsonField: "github",
+        }),
         branch: "main",
         owner: "pourover-labs",
         repo: "pourover-infra",
