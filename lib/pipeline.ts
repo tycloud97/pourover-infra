@@ -27,7 +27,7 @@ export class Pipeline extends Stack {
           jsonField: "github",
         }),
         branch: "main",
-        owner: "pourover-labs",
+        owner: "Pourover-Labs",
         repo: "pourover-infra",
       }),
 
