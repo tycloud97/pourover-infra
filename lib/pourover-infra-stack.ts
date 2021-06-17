@@ -18,6 +18,7 @@ export class PouroverInfraStack extends cdk.Stack {
 
     // dynamodb table Single Table Design
     const table = new Table(this, "CMS", {
+      tableName: "anime",
       partitionKey: {
         name: "PK",
         type: AttributeType.STRING,
