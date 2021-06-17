@@ -33,6 +33,7 @@ export class Pipeline extends Stack {
 
       // How it will be built and synthesized
       synthAction: SimpleSynthAction.standardNpmSynth({
+        environment: { privileged: true },
         sourceArtifact,
         cloudAssemblyArtifact,
       }),
