@@ -28,18 +28,24 @@ const schema = new dynamoose.Schema(
 class AnimeEntity extends Document {
   PK: { id: string; entity: string };
   SK: { id: string; entity: string };
+  title: string;
 }
 export const handler = async (event: { title: string; id: string }) => {
-  //
+  // create domain model
   const AnimeEntity = dynamoose.model<AnimeEntity>("anime", schema, {
     create: false,
   });
 
-  const anime = new AnimeEntity({
-    PK: { id: event.id, entity: "ANIME" },
-    SK: { id: "v1", entity: "VERSION" },
-  });
-  await anime.save().catch((err) => console.error(err));
+  // extract attributes from event
+  const { title, id } = event;
 
-  return;
+  // create instance of the model
+  const anime = new AnimeEntity({
+    PK: { id, entity: "ANIME" },
+    SK: { id: "v1", entity: "VERSION" },
+    title,
+  });
+
+  // save model to dynamo
+  return await anime.save().catch((err) => console.error(err));
 };
