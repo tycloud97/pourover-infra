@@ -3,31 +3,33 @@ import { Document } from "dynamoose/dist/Document";
 
 const schema = new dynamoose.Schema(
   {
+    //@ts-expect-error we allow val to have AnimeTableAttributes
     PK: {
       type: Object,
       hashKey: true,
-      //@ts-expect-error
-      set: (val) => `${val.entity}#${val.id}`,
+      set: (val: AnimeTableAttributes) => `${val.entity}#${val.id}`,
       // "get": (val) =>  // split the string on # and return an object
     },
+    //@ts-expect-error we allow val to have AnimeTableAttributes
     SK: {
       type: Object,
       rangeKey: true,
-      //@ts-expect-error
-      set: (val) => `${val.entity}#${val.id}`,
+      set: (val: AnimeTableAttributes) => `${val.entity}#${val.id}`,
       // "get": (val) =>  // split the string on # and return an object
     },
-    // ... More attributes here
+    title: String,
+    // ... Add more attributes here
   },
   {
-    saveUnknown: true, // now I can use attributes which aren't defined in the schema
+    saveUnknown: true, // use attributes which aren't defined in the schema
     timestamps: true,
   }
 );
 
+type AnimeTableAttributes = { id: string; entity: string };
 class AnimeEntity extends Document {
-  PK: { id: string; entity: string };
-  SK: { id: string; entity: string };
+  PK: AnimeTableAttributes;
+  SK: AnimeTableAttributes;
   title: string;
 }
 export const handler = async (event: { title: string; id: string }) => {
